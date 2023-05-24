@@ -44,7 +44,7 @@ class MailService {
             if(toValidate.isNotEmpty()) validateRecipients(toValidate, mail.subject ?: "NOI")
         }
     }
-    private fun getRecipientsToValidate(mail: Mail, toValidate: MutableList<String>){
+    fun getRecipientsToValidate(mail: Mail, toValidate: MutableList<String>){
         val personalizations = mail.personalization
         personalizations.forEach {personalization ->
             personalization.tos.forEach { to ->
@@ -54,7 +54,7 @@ class MailService {
 
     }
 
-    private fun validateRecipients(email: MutableList<String>, subject: String){
+    fun validateRecipients(email: MutableList<String>, subject: String){
         val statuses = mutableListOf<String>()
         val initSendgrid = SendGrid(validationKey)
         email.forEach {recipient ->
@@ -85,7 +85,7 @@ class MailService {
         sendStatusMail(statuses, subject)
 
     }
-    private fun sendStatusMail(statuses: List<String>, mailSubject: String): String{
+    fun sendStatusMail(statuses: List<String>, mailSubject: String): String{
         val sg = SendGrid(apiKey)
         val from = Email("noiDonotreply@technipfmc.com", "NOI Admin")
         val to = Email("femi@myessl.com")
@@ -118,7 +118,7 @@ class MailService {
             "FAILED"
         }
     }
-    private fun createHtmlContentWithList(listItems: List<String>, mailSubject: String): String {
+    fun createHtmlContentWithList(listItems: List<String>, mailSubject: String): String {
         val listItemHtml = listItems.joinToString(separator = "") { "<li>$it</li>" }
         return "<html><body><h4>These email recipients may likely not receive your email: $mailSubject </h4>" +
                 "<p>Kindly review the recipients. </p><br /></br /><ul>$listItemHtml</ul></body></html>"
